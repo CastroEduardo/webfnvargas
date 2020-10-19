@@ -18,18 +18,18 @@
 		livedemo = true,
 
 		plugins = {
-			customToggle:            $( '[data-custom-toggle]' ),
-			captcha:                 $( '.recaptcha' ),
-			copyrightYear:           $( '.copyright-year' ),
-			owl:                     $( '.owl-carousel' ),
-			preloader:               $( '.preloader' ),
-			rdNavbar:                $( '.rd-navbar' ),
-			rdMailForm:              $( '.rd-mailform' ),
-			rdInputLabel:            $( '.form-label' ),
-			regula:                  $( '[data-constraints]' ),
-			swiper:                  $( '.swiper-container' ),
-			wow:                     $( '.wow' ),
-			selectFilter:            $( 'select' )
+			customToggle: $('[data-custom-toggle]'),
+			captcha: $('.recaptcha'),
+			copyrightYear: $('.copyright-year'),
+			owl: $('.owl-carousel'),
+			preloader: $('.preloader'),
+			rdNavbar: $('.rd-navbar'),
+			rdMailForm: $('.rd-mailform'),
+			rdInputLabel: $('.form-label'),
+			regula: $('[data-constraints]'),
+			swiper: $('.swiper-container'),
+			wow: $('.wow'),
+			selectFilter: $('select')
 		};
 
 	// Initialize scripts that require a loaded page
@@ -37,7 +37,7 @@
 		// Page loader & Page transition
 		if (plugins.preloader.length && !isNoviBuilder) {
 			pageTransition({
-				target: document.querySelector( '.page' ),
+				target: document.querySelector('.page'),
 				delay: 0,
 				duration: 500,
 				classIn: 'fadeIn',
@@ -46,10 +46,10 @@
 				conditions: function (event, link) {
 					return link && !/(\#|callto:|tel:|mailto:|:\/\/)/.test(link) && !event.currentTarget.hasAttribute('data-lightgallery');
 				},
-				onTransitionStart: function ( options ) {
-					setTimeout( function () {
+				onTransitionStart: function (options) {
+					setTimeout(function () {
 						plugins.preloader.removeClass('loaded');
-					}, options.duration * .75 );
+					}, options.duration * .75);
 				},
 				onReady: function () {
 					plugins.preloader.addClass('loaded');
@@ -67,56 +67,56 @@
 		 * @desc Animate captions on active slides
 		 * @param {object} swiper - swiper instance
 		 */
-		function initCaptionAnimate( swiper ) {
+		function initCaptionAnimate(swiper) {
 			var
-					animate = function ( caption ) {
-						return function() {
-							var duration;
-							if ( duration = caption.getAttribute( 'data-caption-duration' ) ) caption.style.animationDuration = duration +'ms';
-							caption.classList.remove( 'not-animated' );
-							caption.classList.add( caption.getAttribute( 'data-caption-animate' ) );
-							caption.classList.add( 'animated' );
-						};
-					},
-					initializeAnimation = function ( captions ) {
-						for ( var i = 0; i < captions.length; i++ ) {
-							var caption = captions[i];
-							caption.classList.remove( 'animated' );
-							caption.classList.remove( caption.getAttribute( 'data-caption-animate' ) );
-							caption.classList.add( 'not-animated' );
-						}
-					},
-					finalizeAnimation = function ( captions ) {
-						for ( var i = 0; i < captions.length; i++ ) {
-							var caption = captions[i];
-							if ( caption.getAttribute( 'data-caption-delay' ) ) {
-								setTimeout( animate( caption ), Number( caption.getAttribute( 'data-caption-delay' ) ) );
-							} else {
-								animate( caption )();
-							}
-						}
+				animate = function (caption) {
+					return function () {
+						var duration;
+						if (duration = caption.getAttribute('data-caption-duration')) caption.style.animationDuration = duration + 'ms';
+						caption.classList.remove('not-animated');
+						caption.classList.add(caption.getAttribute('data-caption-animate'));
+						caption.classList.add('animated');
 					};
+				},
+				initializeAnimation = function (captions) {
+					for (var i = 0; i < captions.length; i++) {
+						var caption = captions[i];
+						caption.classList.remove('animated');
+						caption.classList.remove(caption.getAttribute('data-caption-animate'));
+						caption.classList.add('not-animated');
+					}
+				},
+				finalizeAnimation = function (captions) {
+					for (var i = 0; i < captions.length; i++) {
+						var caption = captions[i];
+						if (caption.getAttribute('data-caption-delay')) {
+							setTimeout(animate(caption), Number(caption.getAttribute('data-caption-delay')));
+						} else {
+							animate(caption)();
+						}
+					}
+				};
 
 			// Caption parameters
 			swiper.params.caption = {
 				animationEvent: 'slideChangeTransitionEnd'
 			};
 
-			initializeAnimation( swiper.$wrapperEl[0].querySelectorAll( '[data-caption-animate]' ) );
-			finalizeAnimation( swiper.$wrapperEl[0].children[ swiper.activeIndex ].querySelectorAll( '[data-caption-animate]' ) );
+			initializeAnimation(swiper.$wrapperEl[0].querySelectorAll('[data-caption-animate]'));
+			finalizeAnimation(swiper.$wrapperEl[0].children[swiper.activeIndex].querySelectorAll('[data-caption-animate]'));
 
-			if ( swiper.params.caption.animationEvent === 'slideChangeTransitionEnd' ) {
-				swiper.on( swiper.params.caption.animationEvent, function() {
-					initializeAnimation( swiper.$wrapperEl[0].children[ swiper.previousIndex ].querySelectorAll( '[data-caption-animate]' ) );
-					finalizeAnimation( swiper.$wrapperEl[0].children[ swiper.activeIndex ].querySelectorAll( '[data-caption-animate]' ) );
+			if (swiper.params.caption.animationEvent === 'slideChangeTransitionEnd') {
+				swiper.on(swiper.params.caption.animationEvent, function () {
+					initializeAnimation(swiper.$wrapperEl[0].children[swiper.previousIndex].querySelectorAll('[data-caption-animate]'));
+					finalizeAnimation(swiper.$wrapperEl[0].children[swiper.activeIndex].querySelectorAll('[data-caption-animate]'));
 				});
 			} else {
-				swiper.on( 'slideChangeTransitionEnd', function() {
-					initializeAnimation( swiper.$wrapperEl[0].children[ swiper.previousIndex ].querySelectorAll( '[data-caption-animate]' ) );
+				swiper.on('slideChangeTransitionEnd', function () {
+					initializeAnimation(swiper.$wrapperEl[0].children[swiper.previousIndex].querySelectorAll('[data-caption-animate]'));
 				});
 
-				swiper.on( swiper.params.caption.animationEvent, function() {
-					finalizeAnimation( swiper.$wrapperEl[0].children[ swiper.activeIndex ].querySelectorAll( '[data-caption-animate]' ) );
+				swiper.on(swiper.params.caption.animationEvent, function () {
+					finalizeAnimation(swiper.$wrapperEl[0].children[swiper.activeIndex].querySelectorAll('[data-caption-animate]'));
 				});
 			}
 		}
@@ -130,7 +130,7 @@
 		 * @param {string|array} [params.easing] - animation easing
 		 * @param {number} [params.duration] - animation duration
 		 */
-		function bindAnimePreset( el, params ) {
+		function bindAnimePreset(el, params) {
 			params = params || {};
 
 			var preset = {
@@ -139,35 +139,35 @@
 						this.style.transform = 'none';
 						this.style.opacity = 0;
 					};
-					el.animeStart = function ( direction ) {
+					el.animeStart = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
 							delay: params.delay,
 							easing: params.easing || 'easeOutQuint',
 							direction: params.direction,
-							translateY: direction ? 0 : [ 100, 0 ],
+							translateY: direction ? 0 : [100, 0],
 							translateX: direction
-									? direction === 'next'
-											? [ 300, 0 ]
-											: [ -300, 0 ]
-									: 0,
-							opacity: [ 0, 1 ]
+								? direction === 'next'
+									? [300, 0]
+									: [-300, 0]
+								: 0,
+							opacity: [0, 1]
 						});
 					};
-					el.animeOut = function ( direction ) {
+					el.animeOut = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
-							delay: params.delay*.3,
+							delay: params.delay * .3,
 							easing: params.easing || 'easeOutQuint',
 							direction: params.direction,
 							translateX: direction
-									? direction === 'next'
-											? [ 0, -300 ]
-											: [ 0, 300 ]
-									: 0,
-							opacity: [ 1, 0 ]
+								? direction === 'next'
+									? [0, -300]
+									: [0, 300]
+								: 0,
+							opacity: [1, 0]
 						});
 					};
 				},
@@ -176,28 +176,28 @@
 						this.style.transform = 'none';
 						this.style.opacity = 0;
 					};
-					el.animeStart = function ( direction ) {
+					el.animeStart = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
 							delay: params.delay || 0,
 							easing: params.easing || 'easeOutQuint',
 							direction: params.direction,
-							translateY: [ 300, 0 ],
-							rotate: [ direction === 'prev' ? 25 : -25, 0 ],
-							opacity: [ 0, 1 ]
+							translateY: [300, 0],
+							rotate: [direction === 'prev' ? 25 : -25, 0],
+							opacity: [0, 1]
 						});
 					};
-					el.animeOut = function ( direction ) {
+					el.animeOut = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
-							delay: params.delay*.6 || 0,
+							delay: params.delay * .6 || 0,
 							easing: params.easing || 'easeOutQuint',
 							direction: params.direction,
-							translateY: [ 0, -300 ],
-							rotate: [ 0, direction === 'prev' ? -15 : 15 ],
-							opacity: [ 1, 0 ]
+							translateY: [0, -300],
+							rotate: [0, direction === 'prev' ? -15 : 15],
+							opacity: [1, 0]
 						});
 					};
 				},
@@ -206,26 +206,26 @@
 						this.style.transform = 'none';
 						this.style.opacity = 0;
 					};
-					el.animeStart = function ( direction ) {
+					el.animeStart = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
 							delay: params.delay || 0,
 							easing: params.easing || 'easeOutQuint',
 							direction: params.direction,
-							translateY: [ 300, 0 ],
-							translateX: [ direction === 'next' ? 300 : -300, 0 ],
-							opacity: [ 0, 1 ]
+							translateY: [300, 0],
+							translateX: [direction === 'next' ? 300 : -300, 0],
+							opacity: [0, 1]
 						});
 					};
-					el.animeOut = function ( direction ) {
+					el.animeOut = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
-							delay: params.delay*.6 || 0,
+							delay: params.delay * .6 || 0,
 							easing: params.easing || 'easeOutQuint',
 							direction: params.direction,
-							opacity: [ 1, 0 ]
+							opacity: [1, 0]
 						});
 					};
 				},
@@ -235,7 +235,7 @@
 						this.style.transform = 'none';
 						this.style.opacity = 0;
 					};
-					el.animeStart = function ( direction ) {
+					el.animeStart = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
@@ -243,22 +243,22 @@
 							easing: params.easing || 'easeOutQuint',
 							direction: params.direction,
 							translateY: direction === 'next'
-									? [ 100, 0 ]
-									: [ -100, 0 ],
-							opacity: [ 0, 1 ]
+								? [100, 0]
+								: [-100, 0],
+							opacity: [0, 1]
 						});
 					};
-					el.animeOut = function ( direction ) {
+					el.animeOut = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
-							delay: params.delay*.6 || 0,
+							delay: params.delay * .6 || 0,
 							easing: params.easing || 'easeOutQuint',
 							direction: params.direction,
 							translateY: direction === 'next'
-									? [ 0, -100 ]
-									: [ 0, 100 ],
-							opacity: [ 1, 0 ]
+								? [0, -100]
+								: [0, 100],
+							opacity: [1, 0]
 						});
 					};
 				},
@@ -266,7 +266,7 @@
 					el.animeReset = function () {
 						this.style.transform = 'translateX(0) scale(1.2)';
 					};
-					el.animeStart = function ( direction ) {
+					el.animeStart = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
@@ -274,10 +274,10 @@
 							easing: params.easing || 'easeInOutQuad',
 							direction: params.direction,
 							translateX: direction
-									? direction === 'next'
-											? [ 200, 0 ]
-											: [ -200, 0 ]
-									: 0,
+								? direction === 'next'
+									? [200, 0]
+									: [-200, 0]
+								: 0,
 							scale: { value: 1.2, duration: 0, delay: 0 }
 						});
 					};
@@ -286,7 +286,7 @@
 					el.animeReset = function () {
 						this.style.transform = 'rotate(0) scale(1.2)';
 					};
-					el.animeStart = function ( direction ) {
+					el.animeStart = function (direction) {
 						el.style.transformOrigin = direction === 'next' ? '0% 50%' : '100% 50%';
 						anime({
 							targets: el,
@@ -296,11 +296,11 @@
 							direction: params.direction,
 							elasticity: 350,
 							rotate: direction
-									? direction === 'next'
-											? [ 5, 0 ]
-											: [ -5, 0 ]
-									: 0,
-							scale: direction ? [ 1.3, 1.1 ] : 1
+								? direction === 'next'
+									? [5, 0]
+									: [-5, 0]
+								: 0,
+							scale: direction ? [1.3, 1.1] : 1
 						});
 					};
 				},
@@ -308,20 +308,20 @@
 					el.animeReset = function () {
 						this.style.transform = 'none';
 					};
-					el.animeStart = function ( direction ) {
+					el.animeStart = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
 							delay: params.delay || 0,
 							easing: params.easing || 'easeInOutQuad',
 							direction: params.direction,
-							translateY: direction ? [ 300, 0 ] : 0,
+							translateY: direction ? [300, 0] : 0,
 							translateX: direction
-									? direction === 'next'
-											? [ 300, 0 ]
-											: [ -300, 0 ]
-									: 0,
-							scale: direction ? [ 1.7, 1 ] : 1,
+								? direction === 'next'
+									? [300, 0]
+									: [-300, 0]
+								: 0,
+							scale: direction ? [1.7, 1] : 1,
 						});
 					};
 				},
@@ -329,95 +329,95 @@
 					el.animeReset = function () {
 						this.style.transform = 'none';
 					};
-					el.animeStart = function ( direction ) {
+					el.animeStart = function (direction) {
 						anime({
 							targets: el,
 							duration: params.duration || 600,
 							delay: params.delay || 0,
 							easing: params.easing || 'easeInQuad',
 							direction: params.direction,
-							scale: direction ? [ .7, 1.7 ] : { value: 1.7, duration: 0 },
+							scale: direction ? [.7, 1.7] : { value: 1.7, duration: 0 },
 						});
 					};
 				}
 			};
 
-			if ( !preset[ params.animation ] ) console.warn( 'Unknown anime on:', el,'This will cause further errors.' );
-			else preset[ params.animation ]();
+			if (!preset[params.animation]) console.warn('Unknown anime on:', el, 'This will cause further errors.');
+			else preset[params.animation]();
 		}
 
 		/**
 		 * @desc Anime.js animations for swiper events
 		 * @param {object} swiper - swiper instance
 		 */
-		function initSwiperAnime( swiper ) {
+		function initSwiperAnime(swiper) {
 			// Anime parameters
 			swiper.params.anime = {
 				animationEvent: 'TransitionStart' // TransitionStart|TransitionEnd
 			};
 
 			// Variable "wrappers" required for separated captions
-			var wrappers = swiper.$el[0].querySelectorAll( '.swiper-wrapper' );
+			var wrappers = swiper.$el[0].querySelectorAll('.swiper-wrapper');
 
-			for ( var w = 0; w < wrappers.length; w++ ) {
+			for (var w = 0; w < wrappers.length; w++) {
 				var wrapper = wrappers[w];
 
 				// Initialize Anime
-				var nodeList = wrapper.querySelectorAll( '[data-swiper-anime]' );
-				for ( var i = 0; i < nodeList.length; i++ ) {
+				var nodeList = wrapper.querySelectorAll('[data-swiper-anime]');
+				for (var i = 0; i < nodeList.length; i++) {
 					var el = nodeList[i];
-					bindAnimePreset( el, JSON.parse( el.getAttribute( 'data-swiper-anime' ) ) );
+					bindAnimePreset(el, JSON.parse(el.getAttribute('data-swiper-anime')));
 				}
 
 				// First play active slide
-				nodeList = wrapper.children[ swiper.activeIndex ].querySelectorAll( '[data-swiper-anime]' );
-				for ( var i = 0; i < nodeList.length; i++ ) if ( nodeList[i].animeStart ) nodeList[i].animeStart();
+				nodeList = wrapper.children[swiper.activeIndex].querySelectorAll('[data-swiper-anime]');
+				for (var i = 0; i < nodeList.length; i++) if (nodeList[i].animeStart) nodeList[i].animeStart();
 
-				swiper.on( 'slideNext'+swiper.params.anime.animationEvent, function( wrapper ) {
+				swiper.on('slideNext' + swiper.params.anime.animationEvent, function (wrapper) {
 					return function () {
-						var nodeList = wrapper.children[ swiper.activeIndex ].querySelectorAll( '[data-swiper-anime]' );
-						for ( var i = 0; i < nodeList.length; i++ ) if ( nodeList[i].animeStart ) nodeList[i].animeStart( 'next' );
+						var nodeList = wrapper.children[swiper.activeIndex].querySelectorAll('[data-swiper-anime]');
+						for (var i = 0; i < nodeList.length; i++) if (nodeList[i].animeStart) nodeList[i].animeStart('next');
 					};
-				}( wrapper ));
+				}(wrapper));
 
-				swiper.on( 'slidePrev'+swiper.params.anime.animationEvent, function( wrapper ) {
+				swiper.on('slidePrev' + swiper.params.anime.animationEvent, function (wrapper) {
 					return function () {
-						var nodeList = wrapper.children[ swiper.activeIndex ].querySelectorAll( '[data-swiper-anime]' );
-						for ( var i = 0; i < nodeList.length; i++ ) if ( nodeList[i].animeStart ) nodeList[i].animeStart( 'prev' );
+						var nodeList = wrapper.children[swiper.activeIndex].querySelectorAll('[data-swiper-anime]');
+						for (var i = 0; i < nodeList.length; i++) if (nodeList[i].animeStart) nodeList[i].animeStart('prev');
 					};
-				}( wrapper ));
+				}(wrapper));
 
-				swiper.on( 'slideNextTransitionStart', function( wrapper ) {
-					return function () {
-						var nodeList;
-						if ( typeof( swiper.realPrevious ) === 'number' && swiper.previousIndex !== swiper.realPrevious ) {
-							nodeList = wrapper.children[ swiper.realPrevious ].querySelectorAll( '[data-swiper-anime]' );
-							for ( var i = 0; i < nodeList.length; i++ ) if ( nodeList[i].animeOut ) nodeList[i].animeOut( 'next' );
-						}
-						nodeList = wrapper.children[ swiper.previousIndex ].querySelectorAll( '[data-swiper-anime]' );
-						for ( var i = 0; i < nodeList.length; i++ ) if ( nodeList[i].animeOut ) nodeList[i].animeOut( 'next' );
-					};
-				}( wrapper ));
-
-				swiper.on( 'slidePrevTransitionStart', function( wrapper ) {
+				swiper.on('slideNextTransitionStart', function (wrapper) {
 					return function () {
 						var nodeList;
-						if ( typeof( swiper.realPrevious ) === 'number' && swiper.previousIndex !== swiper.realPrevious ) {
-							nodeList = wrapper.children[ swiper.realPrevious ].querySelectorAll( '[data-swiper-anime]' );
-							for ( var i = 0; i < nodeList.length; i++ ) if ( nodeList[i].animeOut ) nodeList[i].animeOut( 'prev' );
+						if (typeof (swiper.realPrevious) === 'number' && swiper.previousIndex !== swiper.realPrevious) {
+							nodeList = wrapper.children[swiper.realPrevious].querySelectorAll('[data-swiper-anime]');
+							for (var i = 0; i < nodeList.length; i++) if (nodeList[i].animeOut) nodeList[i].animeOut('next');
 						}
-						nodeList = wrapper.children[ swiper.previousIndex ].querySelectorAll( '[data-swiper-anime]' );
-						for ( var i = 0; i < nodeList.length; i++ ) if ( nodeList[i].animeOut ) nodeList[i].animeOut( 'prev' );
+						nodeList = wrapper.children[swiper.previousIndex].querySelectorAll('[data-swiper-anime]');
+						for (var i = 0; i < nodeList.length; i++) if (nodeList[i].animeOut) nodeList[i].animeOut('next');
 					};
-				}( wrapper ));
+				}(wrapper));
 
-				if ( swiper.params.anime.animationEvent === 'TransitionEnd' ) {
-					swiper.on( 'slideChangeTransitionStart', function( wrapper ) {
+				swiper.on('slidePrevTransitionStart', function (wrapper) {
+					return function () {
+						var nodeList;
+						if (typeof (swiper.realPrevious) === 'number' && swiper.previousIndex !== swiper.realPrevious) {
+							nodeList = wrapper.children[swiper.realPrevious].querySelectorAll('[data-swiper-anime]');
+							for (var i = 0; i < nodeList.length; i++) if (nodeList[i].animeOut) nodeList[i].animeOut('prev');
+						}
+						nodeList = wrapper.children[swiper.previousIndex].querySelectorAll('[data-swiper-anime]');
+						for (var i = 0; i < nodeList.length; i++) if (nodeList[i].animeOut) nodeList[i].animeOut('prev');
+					};
+				}(wrapper));
+
+				if (swiper.params.anime.animationEvent === 'TransitionEnd') {
+					swiper.on('slideChangeTransitionStart', function (wrapper) {
 						return function () {
-							var nodeList = wrapper.children[ swiper.activeIndex ].querySelectorAll( '[data-swiper-anime]' );
-							for ( var i = 0; i < nodeList.length; i++ ) if ( nodeList[i].animeReset ) nodeList[i].animeReset();
+							var nodeList = wrapper.children[swiper.activeIndex].querySelectorAll('[data-swiper-anime]');
+							for (var i = 0; i < nodeList.length; i++) if (nodeList[i].animeReset) nodeList[i].animeReset();
 						};
-					}( wrapper ));
+					}(wrapper));
 				}
 			}
 		}
@@ -426,18 +426,18 @@
 		 * @desc Init custom background circle effect
 		 * @param {object} swiper - swiper instance
 		 */
-		function initCircleBg( swiper ) {
+		function initCircleBg(swiper) {
 			/**
 			 * @desc Recalculate decorative circle parameters
 			 * @param {object} swiper - swiper instance
 			 * @return {object} - circle parameters
 			 */
-			function calcCircle( swiper ) {
+			function calcCircle(swiper) {
 				var activeSlide = swiper.$wrapperEl[0].children[swiper.activeIndex];
 				return {
-					centerX: activeSlide.getAttribute( 'data-circle-cx' ) ? swiper.width*activeSlide.getAttribute( 'data-circle-cx' ) : swiper.width/2,
-					centerY: activeSlide.getAttribute( 'data-circle-cy' ) ? swiper.height*activeSlide.getAttribute( 'data-circle-cy' ) : swiper.height/2,
-					radius: activeSlide.getAttribute( 'data-circle-r' ) ? swiper.width*activeSlide.getAttribute( 'data-circle-r' ) : swiper.height*.4
+					centerX: activeSlide.getAttribute('data-circle-cx') ? swiper.width * activeSlide.getAttribute('data-circle-cx') : swiper.width / 2,
+					centerY: activeSlide.getAttribute('data-circle-cy') ? swiper.height * activeSlide.getAttribute('data-circle-cy') : swiper.height / 2,
+					radius: activeSlide.getAttribute('data-circle-r') ? swiper.width * activeSlide.getAttribute('data-circle-r') : swiper.height * .4
 				};
 			}
 
@@ -448,30 +448,30 @@
 			};
 
 			swiper.decor = {};
-			swiper.decor.el = document.createElement( 'div' );
-			swiper.decor.el.classList.add( 'swiper-decorative' );
-			swiper.decor.circle = calcCircle( swiper );
-			swiper.decor.el.innerHTML = '<div class="swiper-decorative-circle" style="left:'+swiper.decor.circle.centerX+'px;top:'+swiper.decor.circle.centerY+'px;width:'+(swiper.decor.circle.radius*2)+'px;height:'+(swiper.decor.circle.radius*2)+'px"></div>';
-			swiper.$el[0].insertBefore( swiper.decor.el, swiper.$wrapperEl[0] );
+			swiper.decor.el = document.createElement('div');
+			swiper.decor.el.classList.add('swiper-decorative');
+			swiper.decor.circle = calcCircle(swiper);
+			swiper.decor.el.innerHTML = '<div class="swiper-decorative-circle" style="left:' + swiper.decor.circle.centerX + 'px;top:' + swiper.decor.circle.centerY + 'px;width:' + (swiper.decor.circle.radius * 2) + 'px;height:' + (swiper.decor.circle.radius * 2) + 'px"></div>';
+			swiper.$el[0].insertBefore(swiper.decor.el, swiper.$wrapperEl[0]);
 			swiper.decor.circleEl = swiper.decor.el.querySelector('.swiper-decorative-circle');
 
-			swiper.on( 'resize', function () {
-				swiper.decor.circle = calcCircle( swiper );
-				swiper.decor.circleEl.setAttribute( 'style', 'left:'+swiper.decor.circle.centerX+'px;top:'+swiper.decor.circle.centerY+'px;width:'+(swiper.decor.circle.radius*2)+'px;height:'+(swiper.decor.circle.radius*2)+'px' );
+			swiper.on('resize', function () {
+				swiper.decor.circle = calcCircle(swiper);
+				swiper.decor.circleEl.setAttribute('style', 'left:' + swiper.decor.circle.centerX + 'px;top:' + swiper.decor.circle.centerY + 'px;width:' + (swiper.decor.circle.radius * 2) + 'px;height:' + (swiper.decor.circle.radius * 2) + 'px');
 			});
 
-			swiper.on( 'slideChangeTransitionStart', function () {
+			swiper.on('slideChangeTransitionStart', function () {
 				var swiper = this;
-				swiper.decor.circle = calcCircle( swiper );
+				swiper.decor.circle = calcCircle(swiper);
 
 				var shapeIn = function () {
-					return new Promise( function( resolve, reject ) {
+					return new Promise(function (resolve, reject) {
 						anime({
 							targets: swiper.decor.circleEl,
 							duration: swiper.params.speed / 4,
 							easing: swiper.params.decor.easingIn,
-							left: swiper.width/2,
-							top: swiper.height/2,
+							left: swiper.width / 2,
+							top: swiper.height / 2,
 							width: swiper.width * 2,
 							height: swiper.width * 2,
 							complete: resolve
@@ -480,11 +480,11 @@
 				};
 
 				var shapeOut = function () {
-					return new Promise( function( resolve, reject ) {
+					return new Promise(function (resolve, reject) {
 						anime({
 							targets: swiper.decor.circleEl,
-							duration: swiper.params.speed/4,
-							delay: swiper.params.speed/2,
+							duration: swiper.params.speed / 4,
+							delay: swiper.params.speed / 2,
 							easing: swiper.params.decor.easingOut,
 							left: swiper.decor.circle.centerX,
 							top: swiper.decor.circle.centerY,
@@ -495,7 +495,7 @@
 					});
 				};
 
-				shapeIn().then( shapeOut );
+				shapeIn().then(shapeOut);
 			});
 		}
 
@@ -503,82 +503,82 @@
 		 * @desc Sets the actual previous index based on the position of the slide in the markup. Should be the most recent action.
 		 * @param {object} swiper - swiper instance
 		 */
-		function setRealPrevious( swiper ) {
-			var element = swiper.$wrapperEl[0].children[ swiper.activeIndex ];
-			swiper.realPrevious = Array.prototype.indexOf.call( element.parentNode.children, element );
+		function setRealPrevious(swiper) {
+			var element = swiper.$wrapperEl[0].children[swiper.activeIndex];
+			swiper.realPrevious = Array.prototype.indexOf.call(element.parentNode.children, element);
 		}
 
 		/**
 		 * @desc Initialize owl carousel plugin
 		 * @param {object} carousel - carousel jQuery object
 		 */
-		function initOwlCarousel ( carousel ) {
+		function initOwlCarousel(carousel) {
 			var
-				aliaces = [ '-', '-sm-', '-md-', '-lg-', '-xl-', '-xxl-' ],
-				values = [ 0, 576, 768, 992, 1200, 1600 ],
+				aliaces = ['-', '-sm-', '-md-', '-lg-', '-xl-', '-xxl-'],
+				values = [0, 576, 768, 992, 1200, 1600],
 				responsive = {};
 
-			for ( var j = 0; j < values.length; j++ ) {
-				responsive[ values[ j ] ] = {};
-				for ( var k = j; k >= -1; k-- ) {
-					if ( !responsive[ values[ j ] ][ 'items' ] && carousel.attr( 'data' + aliaces[ k ] + 'items' ) ) {
-						responsive[ values[ j ] ][ 'items' ] = k < 0 ? 1 : parseInt( carousel.attr( 'data' + aliaces[ k ] + 'items' ), 10 );
+			for (var j = 0; j < values.length; j++) {
+				responsive[values[j]] = {};
+				for (var k = j; k >= -1; k--) {
+					if (!responsive[values[j]]['items'] && carousel.attr('data' + aliaces[k] + 'items')) {
+						responsive[values[j]]['items'] = k < 0 ? 1 : parseInt(carousel.attr('data' + aliaces[k] + 'items'), 10);
 					}
-					if ( !responsive[ values[ j ] ][ 'stagePadding' ] && responsive[ values[ j ] ][ 'stagePadding' ] !== 0 && carousel.attr( 'data' + aliaces[ k ] + 'stage-padding' ) ) {
-						responsive[ values[ j ] ][ 'stagePadding' ] = k < 0 ? 0 : parseInt( carousel.attr( 'data' + aliaces[ k ] + 'stage-padding' ), 10 );
+					if (!responsive[values[j]]['stagePadding'] && responsive[values[j]]['stagePadding'] !== 0 && carousel.attr('data' + aliaces[k] + 'stage-padding')) {
+						responsive[values[j]]['stagePadding'] = k < 0 ? 0 : parseInt(carousel.attr('data' + aliaces[k] + 'stage-padding'), 10);
 					}
-					if ( !responsive[ values[ j ] ][ 'margin' ] && responsive[ values[ j ] ][ 'margin' ] !== 0 && carousel.attr( 'data' + aliaces[ k ] + 'margin' ) ) {
-						responsive[ values[ j ] ][ 'margin' ] = k < 0 ? 30 : parseInt( carousel.attr( 'data' + aliaces[ k ] + 'margin' ), 10 );
+					if (!responsive[values[j]]['margin'] && responsive[values[j]]['margin'] !== 0 && carousel.attr('data' + aliaces[k] + 'margin')) {
+						responsive[values[j]]['margin'] = k < 0 ? 30 : parseInt(carousel.attr('data' + aliaces[k] + 'margin'), 10);
 					}
 				}
 			}
 
 			// Enable custom pagination
-			if ( carousel.attr( 'data-dots-custom' ) ) {
-				carousel.on( 'initialized.owl.carousel', function ( event ) {
+			if (carousel.attr('data-dots-custom')) {
+				carousel.on('initialized.owl.carousel', function (event) {
 					var
-						carousel = $( event.currentTarget ),
-						customPag = $( carousel.attr( 'data-dots-custom' ) ),
+						carousel = $(event.currentTarget),
+						customPag = $(carousel.attr('data-dots-custom')),
 						active = 0;
 
-					if ( carousel.attr( 'data-active' ) ) {
-						active = parseInt( carousel.attr( 'data-active' ), 10 );
+					if (carousel.attr('data-active')) {
+						active = parseInt(carousel.attr('data-active'), 10);
 					}
 
-					carousel.trigger( 'to.owl.carousel', [ active, 300, true ] );
-					customPag.find( '[data-owl-item="' + active + '"]' ).addClass( 'active' );
+					carousel.trigger('to.owl.carousel', [active, 300, true]);
+					customPag.find('[data-owl-item="' + active + '"]').addClass('active');
 
-					customPag.find( '[data-owl-item]' ).on( 'click', function ( event ) {
+					customPag.find('[data-owl-item]').on('click', function (event) {
 						event.preventDefault();
-						carousel.trigger( 'to.owl.carousel', [ parseInt( this.getAttribute( 'data-owl-item' ), 10 ), 300, true ] );
-					} );
+						carousel.trigger('to.owl.carousel', [parseInt(this.getAttribute('data-owl-item'), 10), 300, true]);
+					});
 
-					carousel.on( 'translate.owl.carousel', function ( event ) {
-						customPag.find( '.active' ).removeClass( 'active' );
-						customPag.find( '[data-owl-item="' + event.item.index + '"]' ).addClass( 'active' )
-					} );
-				} );
+					carousel.on('translate.owl.carousel', function (event) {
+						customPag.find('.active').removeClass('active');
+						customPag.find('[data-owl-item="' + event.item.index + '"]').addClass('active')
+					});
+				});
 			}
 
-			carousel.owlCarousel( {
-				autoplay:           isNoviBuilder ? false : carousel.attr( 'data-autoplay' ) !== 'false',
-				autoplayTimeout:    carousel.attr( "data-autoplay" ) ? Number( carousel.attr( "data-autoplay" ) ) : 3000,
+			carousel.owlCarousel({
+				autoplay: isNoviBuilder ? false : carousel.attr('data-autoplay') !== 'false',
+				autoplayTimeout: carousel.attr("data-autoplay") ? Number(carousel.attr("data-autoplay")) : 3000,
 				autoplayHoverPause: true,
-				loop:               isNoviBuilder ? false : carousel.attr( 'data-loop' ) !== 'false',
-				items:              1,
-				center:             carousel.attr( 'data-center' ) === 'true',
-				dotsContainer:      carousel.attr( 'data-pagination-class' ) || false,
-				navContainer:       carousel.attr( 'data-navigation-class' ) || false,
-				mouseDrag:          isNoviBuilder ? false : carousel.attr( 'data-mouse-drag' ) !== 'false',
-				nav:                carousel.attr( 'data-nav' ) === 'true',
-				dots:               carousel.attr( 'data-dots' ) === 'true',
-				dotsEach:           carousel.attr( 'data-dots-each' ) ? parseInt( carousel.attr( 'data-dots-each' ), 10 ) : false,
-				animateIn:          carousel.attr( 'data-animation-in' ) ? carousel.attr( 'data-animation-in' ) : false,
-				animateOut:         carousel.attr( 'data-animation-out' ) ? carousel.attr( 'data-animation-out' ) : false,
-				responsive:         responsive,
-				navText:            carousel.attr( 'data-nav-text' ) ? $.parseJSON( carousel.attr( 'data-nav-text' ) ) : [],
-				navClass:           carousel.attr( 'data-nav-class' ) ? $.parseJSON( carousel.attr( 'data-nav-class' ) ) : [ 'owl-prev', 'owl-next' ]
-			} );
+				loop: isNoviBuilder ? false : carousel.attr('data-loop') !== 'false',
+				items: 1,
+				center: carousel.attr('data-center') === 'true',
+				dotsContainer: carousel.attr('data-pagination-class') || false,
+				navContainer: carousel.attr('data-navigation-class') || false,
+				mouseDrag: isNoviBuilder ? false : carousel.attr('data-mouse-drag') !== 'false',
+				nav: carousel.attr('data-nav') === 'true',
+				dots: carousel.attr('data-dots') === 'true',
+				dotsEach: carousel.attr('data-dots-each') ? parseInt(carousel.attr('data-dots-each'), 10) : false,
+				animateIn: carousel.attr('data-animation-in') ? carousel.attr('data-animation-in') : false,
+				animateOut: carousel.attr('data-animation-out') ? carousel.attr('data-animation-out') : false,
+				responsive: responsive,
+				navText: carousel.attr('data-nav-text') ? $.parseJSON(carousel.attr('data-nav-text')) : [],
+				navClass: carousel.attr('data-nav-class') ? $.parseJSON(carousel.attr('data-nav-class')) : ['owl-prev', 'owl-next']
+			});
 		}
 
 		/**
@@ -590,9 +590,9 @@
 			regula.custom({
 				name: 'PhoneNumber',
 				defaultMessage: 'Invalid phone number format',
-				validator: function() {
-					if ( this.value === '' ) return true;
-					else return /^(\+\d)?[0-9\-\(\) ]{5,}$/i.test( this.value );
+				validator: function () {
+					if (this.value === '') return true;
+					else return /^(\+\d)?[0-9\-\(\) ]{5,}$/i.test(this.value);
 				}
 			});
 
@@ -609,7 +609,7 @@
 				if (e.type !== "blur") if (!$this.parent().hasClass("has-error")) return;
 				if ($this.parents('.rd-mailform').hasClass('success')) return;
 
-				if (( results = $this.regula('validate') ).length) {
+				if ((results = $this.regula('validate')).length) {
 					for (i = 0; i < results.length; i++) {
 						$this.siblings(".form-validation").text(results[i].message).parent().addClass("has-error");
 					}
@@ -849,53 +849,53 @@
 		}
 
 		// Swiper
-		if ( plugins.swiper ) {
-			for ( var i = 0; i < plugins.swiper.length; i++ ) {
+		if (plugins.swiper) {
+			for (var i = 0; i < plugins.swiper.length; i++) {
 				var
 					sliderMarkup = plugins.swiper[i],
 					swiper,
 					options = {
-						loop: sliderMarkup.getAttribute( 'data-loop' ) === 'true' || false,
-						effect: sliderMarkup.getAttribute( 'data-effect' ) || 'fade',
-						direction: sliderMarkup.getAttribute( 'data-direction' ) || 'horizontal',
-						speed: sliderMarkup.getAttribute( 'data-speed' ) ? Number( sliderMarkup.getAttribute( 'data-speed' ) ) : 1000,
+						loop: sliderMarkup.getAttribute('data-loop') === 'true' || false,
+						effect: sliderMarkup.getAttribute('data-effect') || 'fade',
+						direction: sliderMarkup.getAttribute('data-direction') || 'horizontal',
+						speed: sliderMarkup.getAttribute('data-speed') ? Number(sliderMarkup.getAttribute('data-speed')) : 1000,
 						allowTouchMove: false,
 						preventIntercationOnTransition: true,
 						runCallbacksOnInit: false,
-						separateCaptions: sliderMarkup.getAttribute( 'data-separate-captions' ) === 'true' || false
+						separateCaptions: sliderMarkup.getAttribute('data-separate-captions') === 'true' || false
 					};
 
-				if ( sliderMarkup.getAttribute( 'data-autoplay' ) ) {
+				if (sliderMarkup.getAttribute('data-autoplay')) {
 					options.autoplay = {
-						delay: Number( sliderMarkup.getAttribute( 'data-autoplay' ) ) || 3000,
+						delay: Number(sliderMarkup.getAttribute('data-autoplay')) || 3000,
 						stopOnLastSlide: false,
 						disableOnInteraction: true,
 						reverseDirection: false,
 					};
 				}
 
-				if ( sliderMarkup.getAttribute( 'data-keyboard' ) === 'true' ) {
+				if (sliderMarkup.getAttribute('data-keyboard') === 'true') {
 					options.keyboard = {
-						enabled: sliderMarkup.getAttribute( 'data-keyboard' ) === 'true',
+						enabled: sliderMarkup.getAttribute('data-keyboard') === 'true',
 						onlyInViewport: true
 					};
 				}
 
-				if ( sliderMarkup.getAttribute( 'data-mousewheel' ) === 'true' ) {
+				if (sliderMarkup.getAttribute('data-mousewheel') === 'true') {
 					options.mousewheel = {
 						releaseOnEdges: true,
 						sensitivity: .1
 					};
 				}
 
-				if ( sliderMarkup.querySelector( '.swiper-button-next, .swiper-button-prev' ) ) {
+				if (sliderMarkup.querySelector('.swiper-button-next, .swiper-button-prev')) {
 					options.navigation = {
 						nextEl: '.swiper-button-next',
 						prevEl: '.swiper-button-prev'
 					};
 				}
 
-				if ( sliderMarkup.querySelector( '.swiper-pagination' ) ) {
+				if (sliderMarkup.querySelector('.swiper-pagination')) {
 					options.pagination = {
 						el: '.swiper-pagination',
 						type: 'bullets',
@@ -903,7 +903,7 @@
 					};
 				}
 
-				if ( sliderMarkup.querySelector( '.swiper-scrollbar' ) ) {
+				if (sliderMarkup.querySelector('.swiper-scrollbar')) {
 					options.scrollbar = {
 						el: '.swiper-scrollbar',
 						hide: true,
@@ -913,32 +913,32 @@
 
 				options.on = {
 					init: function () {
-						setRealPrevious( this );
-						switch( options.effect ) {
+						setRealPrevious(this);
+						switch (options.effect) {
 							case 'circle-bg':
-								initCircleBg( this );
+								initCircleBg(this);
 								break;
 						}
-						initSwiperAnime( this );
-						initCaptionAnimate( this );
+						initSwiperAnime(this);
+						initCaptionAnimate(this);
 
 						// Real Previous Index must be set recent
-						this.on( 'slideChangeTransitionEnd', function () {
-							setRealPrevious( this );
+						this.on('slideChangeTransitionEnd', function () {
+							setRealPrevious(this);
 						});
 					}
 				};
 
-				swiper = new Swiper ( plugins.swiper[i], options );
+				swiper = new Swiper(plugins.swiper[i], options);
 			}
 		}
 
 		// Owl carousel
-		if ( plugins.owl.length ) {
-			for ( var i = 0; i < plugins.owl.length; i++ ) {
-				var carousel = $( plugins.owl[ i ] );
-				plugins.owl[ i ].owl = carousel;
-				initOwlCarousel( carousel );
+		if (plugins.owl.length) {
+			for (var i = 0; i < plugins.owl.length; i++) {
+				var carousel = $(plugins.owl[i]);
+				plugins.owl[i].owl = carousel;
+				initOwlCarousel(carousel);
 			}
 		}
 
@@ -1006,7 +1006,7 @@
 								$.ajax({
 									method: "POST",
 									url: "bat/reCaptcha.php",
-									data: {'g-recaptcha-response': captchaToken},
+									data: { 'g-recaptcha-response': captchaToken },
 									async: false
 								})
 									.done(function (responceCode) {
@@ -1035,7 +1035,7 @@
 							form.addClass('form-in-process');
 
 							if (output.hasClass("snackbars")) {
-								output.html('<p><span class="icon text-middle fa fa-circle-o-notch fa-spin icon-xxs"></span><span>Sending</span></p>');
+								output.html('<p><span class="icon text-middle fa fa-circle-o-notch fa-spin icon-xxs"></span><span>Enviando</span></p>');
 								output.addClass("active");
 							}
 						} else {
@@ -1139,17 +1139,17 @@
 		}
 
 		// Select 2
-		if ( plugins.selectFilter.length ) {
-			for ( var i = 0; i < plugins.selectFilter.length; i++ ) {
-				var select = $( plugins.selectFilter[ i ] );
+		if (plugins.selectFilter.length) {
+			for (var i = 0; i < plugins.selectFilter.length; i++) {
+				var select = $(plugins.selectFilter[i]);
 
-				select.select2( {
-					dropdownParent:          $( '.page' ),
-					placeholder:             select.attr( 'data-placeholder' ) || null,
-					minimumResultsForSearch: select.attr( 'data-minimum-results-search' ) || Infinity,
-					containerCssClass:       select.attr( 'data-container-class' ) || null,
-					dropdownCssClass:        select.attr( 'data-dropdown-class' ) || null
-				} );
+				select.select2({
+					dropdownParent: $('.page'),
+					placeholder: select.attr('data-placeholder') || null,
+					minimumResultsForSearch: select.attr('data-minimum-results-search') || Infinity,
+					containerCssClass: select.attr('data-container-class') || null,
+					dropdownCssClass: select.attr('data-dropdown-class') || null
+				});
 			}
 		}
 
